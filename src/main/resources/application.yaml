@@ -6,10 +6,14 @@ spring:
     name: douyin-reptiles
 
 cookie:
+  ## 可固定死
   bdTicketGuardClientData: eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==
 
 common:
   query:
+    ## 可固定死
     aid: 6383
+    ## 可固定死
     devicePlatform: webapp
+    ## 可固定死
     userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36

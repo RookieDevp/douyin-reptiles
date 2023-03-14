@@ -13,6 +13,15 @@ python3 server.py
 启动springboot
 127.0.0.1:8088
 
+两个服务都要启动缺一不可
+
 ```
-/
+获取用户喜欢列表 GET
+/reptiles/getUserFavoriteList/xxx
+获取cookie GET
+/reptiles/cookie
+获取ttwid GET
+/reptiles/ttwid
+获取xbogus GET
+/reptiles/xbogus
 ```
