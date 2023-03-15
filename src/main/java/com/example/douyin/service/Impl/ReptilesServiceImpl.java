@@ -1,7 +1,8 @@
 package com.example.douyin.service.Impl;
 
-import cn.hutool.core.io.FileUtil;
 import cn.hutool.core.io.resource.ResourceUtil;
+import cn.hutool.core.net.url.UrlBuilder;
+import cn.hutool.core.util.CharsetUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
@@ -13,14 +14,11 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.douyin.config.CommonQueryConfig;
 import com.example.douyin.config.CookieConfig;
-import com.example.douyin.domain.AjaxResult;
 import com.example.douyin.service.IReptilesService;
-import com.example.douyin.util.XBogusUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
 import java.net.HttpCookie;
 import java.nio.charset.Charset;
@@ -46,6 +44,8 @@ public class ReptilesServiceImpl implements IReptilesService {
     private String signServiceUrl;
 
     public static final String TTWID_REGISTER_URL = "https://ttwid.bytedance.com/ttwid/union/register/";
+
+    public static final String JS =ResourceUtil.readStr("js/X-Bogus.js",Charset.defaultCharset());
 
     @Override
     public JSONObject getXbogus(String url, String userAgent) {
@@ -126,8 +126,10 @@ public class ReptilesServiceImpl implements IReptilesService {
                     +"&sec_user_id="+secUserId
                     +"&max_cursor="+(Long.parseLong(maxCursor) > 0 ? maxCursor : "0")
                     +"&min_cursor="+(Long.parseLong(minCursor) > 0 ? maxCursor : "0");
-        String xbogus = (String) ScriptUtil.invoke(ResourceUtil.readStr("js/X-Bogus.js",Charset.defaultCharset()),"sign", url, commonQueryConfig.getUserAgent());
-//        String xbogusUrl = XBogusUtils.signXbogusToUrl(url, commonQueryConfig.getUserAgent());
+        UrlBuilder builder = UrlBuilder.ofHttp(url, CharsetUtil.CHARSET_UTF_8);
+        String queryStr = builder.getQueryStr();
+        String xbogus = (String) ScriptUtil.invoke(JS,"sign", queryStr, commonQueryConfig.getUserAgent());
+//        String xbogus2 = XBogusUtils.signXbogusToUrl(url, commonQueryConfig.getUserAgent());
         String xbogusUrl = url + "&X-Bogus=" + xbogus;
         if (ObjectUtil.isEmpty(xbogusUrl)) {
             log.error("X-Bogus签名失败，xbogusUrl:{}",xbogusUrl);

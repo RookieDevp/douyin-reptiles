@@ -1,6 +1,14 @@
 # douyin-reptiles
 douyin-reptiles
 
+* douyin.md 思路和参考
+* user.txt 包含多个sec_user_id，可用于测试
+* X-Bogus 用于Python签名
+
+## 启动类
+server.py
+
+Application.class
 
 ### 步骤一
 ```
@@ -11,6 +19,10 @@ python3 server.py
 ```
 访问测试 
 127.0.0.1:8787
+```
+获取X-Bogus POST
+/X-Bogus
+```
 ### 步骤二
 启动springboot
 127.0.0.1:8088
