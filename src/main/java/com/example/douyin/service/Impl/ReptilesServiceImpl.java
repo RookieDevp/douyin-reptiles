@@ -1,11 +1,14 @@
 package com.example.douyin.service.Impl;
 
+import cn.hutool.core.io.FileUtil;
+import cn.hutool.core.io.resource.ResourceUtil;
 import cn.hutool.core.util.ObjectUtil;
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpResponse;
+import cn.hutool.script.ScriptUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.douyin.config.CommonQueryConfig;
@@ -20,6 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.net.HttpCookie;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 import java.util.stream.Collectors;
 
@@ -115,14 +119,16 @@ public class ReptilesServiceImpl implements IReptilesService {
     }
 
     @Override
-    public JSONObject getUserFavoriteList(String secUserId, String maxCursor, String minCursor) {
+    public JSONObject getUserFavoriteList(String secUserId, String maxCursor, String minCursor){
         String url = "https://www.douyin.com/aweme/v1/web/aweme/favorite/";
             url += "?device_platform="+commonQueryConfig.getDevicePlatform()
                     +"&aid="+commonQueryConfig.getAid()
                     +"&sec_user_id="+secUserId
                     +"&max_cursor="+(Long.parseLong(maxCursor) > 0 ? maxCursor : "0")
                     +"&min_cursor="+(Long.parseLong(minCursor) > 0 ? maxCursor : "0");
-        String xbogusUrl = XBogusUtils.signXbogusToUrl(url, commonQueryConfig.getUserAgent());
+        String xbogus = (String) ScriptUtil.invoke(ResourceUtil.readStr("js/X-Bogus.js",Charset.defaultCharset()),"sign", url, commonQueryConfig.getUserAgent());
+//        String xbogusUrl = XBogusUtils.signXbogusToUrl(url, commonQueryConfig.getUserAgent());
+        String xbogusUrl = url + "&X-Bogus=" + xbogus;
         if (ObjectUtil.isEmpty(xbogusUrl)) {
             log.error("X-Bogus签名失败，xbogusUrl:{}",xbogusUrl);
             return null;
@@ -152,8 +158,9 @@ public class ReptilesServiceImpl implements IReptilesService {
                 log.error("用户-{}-获取喜欢列表失败,statusCode:5,重试失败！",secUserId);
                 return null;
             }
+            statusCode = (int) jsonObject.get("status_code");
         }
-        statusCode = (int) jsonObject.get("status_code");
+
         JSONArray awemeList = (JSONArray) jsonObject.get("aweme_list");
         if (statusCode != 0 || awemeList == null){
                 String statusMsg = (String) jsonObject.get("status_msg");
