@@ -16,5 +16,7 @@ public interface IReptilesService {
 
     public String getCookie();
 
+    public String refreshCookie();
+
     public JSONObject getUserFavoriteList(String secUserId, String maxCursor, String minCursor);
 }

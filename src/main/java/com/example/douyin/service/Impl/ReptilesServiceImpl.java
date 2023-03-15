@@ -1,29 +1,26 @@
 package com.example.douyin.service.Impl;
 
-import cn.hutool.core.date.DateTime;
-import cn.hutool.core.date.DateUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.ContentType;
 import cn.hutool.http.Header;
 import cn.hutool.http.HttpRequest;
-import cn.hutool.http.HttpUtil;
-import cn.hutool.json.JSONString;
+import cn.hutool.http.HttpResponse;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.example.douyin.config.CommonQueryConfig;
 import com.example.douyin.config.CookieConfig;
+import com.example.douyin.domain.AjaxResult;
 import com.example.douyin.service.IReptilesService;
-import com.example.douyin.service.JsMethods;
-import com.example.douyin.util.JsUtils;
+import com.example.douyin.util.XBogusUtils;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import java.net.HttpCookie;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -31,6 +28,7 @@ import java.util.stream.Collectors;
  * @date: 2023/03/14
  * @desc:
  */
+@Slf4j
 @Service
 public class ReptilesServiceImpl implements IReptilesService {
 
@@ -40,41 +38,52 @@ public class ReptilesServiceImpl implements IReptilesService {
     @Autowired
     private CommonQueryConfig commonQueryConfig;
 
+    @Value("${sign.service.url}")
+    private String signServiceUrl;
+
+    public static final String TTWID_REGISTER_URL = "https://ttwid.bytedance.com/ttwid/union/register/";
+
     @Override
     public JSONObject getXbogus(String url, String userAgent) {
-        HashMap<String, Object> paramMap = new HashMap<>();
+        HashMap<String, String> paramMap = new HashMap<>();
         paramMap.put("url",url);
         paramMap.put("user_agent",userAgent);
-        String body = HttpRequest.post("http://127.0.0.1:8787/X-Bogus")
+        HttpResponse response = HttpRequest.post(signServiceUrl)
                 .header(Header.CONTENT_TYPE, String.valueOf(ContentType.JSON))
                 .body(JSONObject.toJSONString(paramMap))
-                .execute()
-                .body();
-        JSONObject jsonObject = JSONObject.parseObject(body);
-        String param = (String) jsonObject.get("param");
-        commonQueryConfig.setParam(param);
-        return jsonObject;
+                .execute();
+        if (response.isOk()){
+            JSONObject body = JSONObject.parseObject(response.body());
+            log.info("param:{}",body.get("param"));
+            return body;
+        }else {
+            return null;
+        }
     }
 
     @Override
     public String getTTwid() {
         String post = "{\"region\":\"cn\",\"aid\":1768,\"needFid\":false,\"service\":\"www.ixigua.com\",\"migrate_info\":{\"ticket\":\"\",\"source\":\"node\"},\"cbUrlProtocol\":\"https\",\"union\":true}";
-        String body = HttpRequest.post("https://ttwid.bytedance.com/ttwid/union/register/")
+        HttpResponse httpResponse = HttpRequest.post(TTWID_REGISTER_URL)
                 .body(post)
-                .execute()
-                .body();
-        JSONObject jsonObject = JSONObject.parseObject(body);
-        String redirectUrl = (String) jsonObject.get("redirect_url");
+                .execute();
+        if (!httpResponse.isOk()){
+            return StrUtil.EMPTY;
+        }
+        JSONObject jsonObject = JSONObject.parseObject(httpResponse.body());
         int statusCode = (int) jsonObject.get("status_code");
         String ttwidValue = "";
         if (statusCode == 0){
-            HttpCookie ttwid = HttpRequest.get(redirectUrl)
-                    .execute()
-                    .getCookie("ttwid");
-            ttwidValue = ttwid.getValue();
-            cookieConfig.setTtwid(ttwidValue);
+            String redirectUrl = (String) jsonObject.get("redirect_url");
+            HttpResponse response = HttpRequest.get(redirectUrl)
+                    .execute();
+            if (response.isOk()) {
+                HttpCookie cookie = response.getCookie("ttwid");
+                ttwidValue = cookie.getValue();
+                cookieConfig.setTtwid(ttwidValue);
+            }
         }else {
-
+            return StrUtil.EMPTY;
         }
         return ttwidValue;
     }
@@ -82,49 +91,99 @@ public class ReptilesServiceImpl implements IReptilesService {
     @Override
     public String getCookie() {
         String ttwid = cookieConfig.getTtwid();
-        if (StringUtils.isEmpty(ttwid)){
+        if (StrUtil.isEmpty(ttwid)){
             ttwid = getTTwid();
+            if (StrUtil.isEmpty(ttwid)){
+                return StrUtil.EMPTY;
+            }
             cookieConfig.setTtwid(ttwid);
         }
         String bdTicketGuardClientData = cookieConfig.getBdTicketGuardClientData();
+        if (StrUtil.isEmpty(bdTicketGuardClientData)){
+            return StrUtil.EMPTY;
+        }
         String cookie = "ttwid="+ttwid+";bd_ticket_guard_client_data="+bdTicketGuardClientData;
         return cookie;
     }
 
     @Override
+    public String refreshCookie() {
+        String tTwid = getTTwid();
+        String bdTicketGuardClientData = cookieConfig.getBdTicketGuardClientData();
+        String cookie = "ttwid="+tTwid+";bd_ticket_guard_client_data="+bdTicketGuardClientData;
+        return cookie;
+    }
+
+    @Override
     public JSONObject getUserFavoriteList(String secUserId, String maxCursor, String minCursor) {
-        //https://www.douyin.com/aweme/v1/web/aweme/favorite/?device_platform=webapp&aid=6383&sec_user_id=MS4wLjABAAAApmi-USaKOChKt5pX20FjhjJMcH2bFRfh04i2aP-zVlI&X-Bogus=DFSzswSLLuXANJ0qtc3okU9WcBng
         String url = "https://www.douyin.com/aweme/v1/web/aweme/favorite/";
             url += "?device_platform="+commonQueryConfig.getDevicePlatform()
                     +"&aid="+commonQueryConfig.getAid()
                     +"&sec_user_id="+secUserId
                     +"&max_cursor="+(Long.parseLong(maxCursor) > 0 ? maxCursor : "0")
                     +"&min_cursor="+(Long.parseLong(minCursor) > 0 ? maxCursor : "0");
-            getXbogus(url,commonQueryConfig.getUserAgent());
-
-        String body = HttpRequest.get(commonQueryConfig.getParam())
-                .header(Header.COOKIE,StringUtils.isEmpty(cookieConfig.getCookie()) ? getCookie() : cookieConfig.getCookie())
-                .header(Header.USER_AGENT,commonQueryConfig.getUserAgent())
-                .header(Header.REFERER,"https://www.douyin.com/user/"+secUserId)
-                .execute()
-                .body();
-        JSONObject jsonObject = JSONObject.parseObject(body);
-        JSONArray aweme_list = (JSONArray) jsonObject.get("aweme_list");
-        JSONArray collect = aweme_list.stream().map(item -> {
+        String xbogusUrl = XBogusUtils.signXbogusToUrl(url, commonQueryConfig.getUserAgent());
+        if (ObjectUtil.isEmpty(xbogusUrl)) {
+            log.error("X-Bogus签名失败，xbogusUrl:{}",xbogusUrl);
+            return null;
+        }
+        HttpResponse response = null;
+        JSONObject jsonObject = null;
+        int statusCode = 0;
+        response = HttpRequest.get(xbogusUrl)
+                .header(Header.COOKIE, StrUtil.isEmptyIfStr(cookieConfig.getCookie()) ? getCookie() : cookieConfig.getCookie())
+                .header(Header.USER_AGENT, commonQueryConfig.getUserAgent())
+                .header(Header.REFERER, "https://www.douyin.com/user/" + secUserId)
+                .execute();
+        if (!response.isOk()){
+            return null;
+        }
+        jsonObject = JSONObject.parseObject(response.body());
+        statusCode = (int) jsonObject.get("status_code");
+        // 参数不合法，重试一次
+        if (statusCode == 5){
+            response  = HttpRequest.get(xbogusUrl)
+                    .header(Header.COOKIE, refreshCookie())
+                    .header(Header.USER_AGENT, commonQueryConfig.getUserAgent())
+                    .header(Header.REFERER, "https://www.douyin.com/user/" + secUserId)
+                    .execute();
+            jsonObject = JSONObject.parseObject(response.body());
+            if (!response.isOk()){
+                log.error("用户-{}-获取喜欢列表失败,statusCode:5,重试失败！",secUserId);
+                return null;
+            }
+        }
+        statusCode = (int) jsonObject.get("status_code");
+        JSONArray awemeList = (JSONArray) jsonObject.get("aweme_list");
+        if (statusCode != 0 || awemeList == null){
+                String statusMsg = (String) jsonObject.get("status_msg");
+                log.error("用户{}获取喜欢列表失败,statusCode:{},statusMsg:{}，aweme_list_size：{}",secUserId,statusCode,statusMsg,awemeList == null ? "null" : awemeList.size());
+                return null;
+        }
+        // 是否还有更多 1是 0否
+        //int hasMore = (int) jsonObject.get("has_more");
+        JSONArray collect = awemeList.stream().map(item -> {
             JSONObject temp = new JSONObject();
+            // item包含全部参数 awemeList[index]
             JSONObject object = (JSONObject) item;
             String previewTitle = (String) object.get("preview_title");
             JSONObject author = (JSONObject) object.get("author");
             String secUid = (String) author.get("sec_uid");
             String awemeId = (String) object.get("aweme_id");
+            // 视频标题
             temp.put("previewTitle", previewTitle);
+            // 作者ID
             temp.put("authorSecUid", secUid);
+            // 视频ID
             temp.put("awemeId", awemeId);
+            // 喜欢的创建时间
             temp.put("createTime",  object.get("create_time"));
             return temp;
         }).collect(Collectors.toCollection(JSONArray::new));
+
         JSONObject res = new JSONObject();
         res.put("aweme_list",collect);
+        // 下一分页游标，时间戳
         res.put("max_cursor",jsonObject.get("max_cursor"));
         res.put("status_code",jsonObject.get("status_code"));
         return res;

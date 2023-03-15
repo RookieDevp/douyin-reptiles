@@ -1,5 +1,3 @@
-
-
 ### 开源API
 
 https://open.douyin.com/platform 抖音开放平台API
@@ -30,6 +28,8 @@ https://api.tikhub.io/docs#tag/Douyin/operation/get_douyin_user_profile_liked_vi
 
 ### example
 
+对比两次请求
+
 第一次请求：
 
 https://www.douyin.com/aweme/v1/web/aweme/favorite/?device_platform=webapp&aid=6383&channel=channel_pc_web&sec_user_id=MS4wLjABAAAAlgprH3J4bbkgRZjKOvJgcxbK3BFJ1YrgAqm13cZGe50&max_cursor=0&min_cursor=0&count=10&publish_video_strategy_type=2&pc_client_type=1&version_code=170400&version_name=17.4.0&cookie_enabled=true&screen_width=1536&screen_height=864&browser_language=zh-CN&browser_platform=Win32&browser_name=Chrome&browser_version=110.0.0.0&browser_online=true&engine_name=Blink&engine_version=110.0.0.0&os_name=Windows&os_version=10&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=50&webid=7202581455338505760&msToken=dp1MU0wt_QuaFegHu4xOAd8DsDwaSh9DsF6WAQu2UY7fpbvCXksg8olcazKGkRyHK_9AeFFR-w5uu-9Thwk9nAc0bUvdnwJnMDt2rMEq5KCCfq1hq_hw&X-Bogus=DFSzswVuQnUANJPItam3xM9WX7r-
@@ -38,7 +38,7 @@ https://www.douyin.com/aweme/v1/web/aweme/favorite/?device_platform=webapp&aid=6
 
 https://www.douyin.com/aweme/v1/web/aweme/favorite/?device_platform=webapp&aid=6383&channel=channel_pc_web&sec_user_id=MS4wLjABAAAAlgprH3J4bbkgRZjKOvJgcxbK3BFJ1YrgAqm13cZGe50&max_cursor=0&min_cursor=0&count=10&publish_video_strategy_type=2&pc_client_type=1&version_code=170400&version_name=17.4.0&cookie_enabled=true&screen_width=1536&screen_height=864&browser_language=zh-CN&browser_platform=Win32&browser_name=Chrome&browser_version=110.0.0.0&browser_online=true&engine_name=Blink&engine_version=110.0.0.0&os_name=Windows&os_version=10&cpu_core_num=8&device_memory=8&platform=PC&downlink=10&effective_type=4g&round_trip_time=0&webid=7202581455338505760&msToken=ksH8DlAXGYvfzIwgwQeMhbQS_IbI_xvpuiiGhTbDKaWmd8sSBbV_Pe-ron73EwZlbxOqxfY1xhGOQG0l9Y41QwCFwKeULcjEZx_b1eCtvg9foB8BRRGcFqDGEAVAPw==&X-Bogus=DFSzswVue3GANJPItamohe9WX7r7
 
-区别 msToken、X-Bogus，每次请求会改变，否则{}
+==区别 msToken、X-Bogus，每次请求会改变，否则{}==
 
 
 
@@ -121,7 +121,7 @@ msToken: W2GV7tEZVfi6R6v370YbLlWR_ClKPElMw8QQ70-ZkUCB38WuFfLmiSTFucX4G8EKB9R-KXK
 X-Bogus: DFSzswVO7atANriStamqde9WX7n4
 ```
 
-![image-20230314015757903](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20230314015757903.png)
+![image-20230314015757903](http://qiniu.noobzz.cn/pic-bed/image-20230314015757903.png)
 
 > msToken，该参数其实就是一个107位的随机数，由大小写英文字母、数字组成
 >
@@ -139,6 +139,8 @@ X-Bogus: DFSzswVO7atANriStamqde9WX7n4
 
 ### X-Bogus解析测试
 
+说白就是给你url和userAgent进行加密
+
 > X-Bogus会对params、form-data、user-agent、时间、canvas进行校验
 >
 > https://www.iculture.cc/knowledge/pig=33360?only_author=1
@@ -154,6 +156,8 @@ X-Bogus: DFSzswVO7atANriStamqde9WX7n4
 > https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7209082846806379787 返回值空
 
 ### Request Headers
+
+以下是一个请求的完整请求头：
 
 ```
 :authority: www.douyin.com
@@ -174,9 +178,242 @@ sec-fetch-site: same-origin
 user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36
 ```
 
+==referer==
+
+==user-agent==
+
+==cookie==
+
+必须要这三个参数（其他可选）
+
 ### 测试
 
+优化cookie测试
 
+通过：
+
+```
+bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; msToken=mBaNX7BGgpiNu1urGDFKVEBrVn6JjevMvKxr5EG8Cm_SuwDGpzlHS3pf2azyVbXN0_79oSb4iuGLC0R2-0iBbuIApTBTnJmNg1qXPj6auObjWMWcIqdizg==; msToken=o01NRabe1fwse268wdBgtvwVhRHv9wnAXLMXVG5-7_2hVyTE8_LLI_hCBlmcmbn0BsrL48omjA2-_5BpHOwKN7jTLqW32iLOJZRCefJwnmAlBP2dzf0RTD6ICqjVbxA=; __ac_nonce=06410073400b91f78de59; __ac_signature=_02B4Z6wo00f01u6Dk6gAAIDCboFp6N8mRhruo5cAAN--fQVZJNDvcgYYV24NbKz8TXCQwjWZn4xMG-6OmHQ7c5hFnTMdlZqY4ZjlgW25d3T7uzbgfl2mKcm2WY.SJko9t.F3xius4eW8Sgg8fd; home_can_add_dy_2_desktop="0"
+```
+
+通过：
+
+```
+ttwid=1|N-rAdtOYXiKx93JfpMXe7TBaO80jVySuDm_3-EXOPTc|1676981691|4bc17fc85bf68923847ae317863658c043e801b0ec20440a87597eeb193d450a; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; msToken=mBaNX7BGgpiNu1urGDFKVEBrVn6JjevMvKxr5EG8Cm_SuwDGpzlHS3pf2azyVbXN0_79oSb4iuGLC0R2-0iBbuIApTBTnJmNg1qXPj6auObjWMWcIqdizg==;
+```
+
+通过：
+
+```
+ttwid=1|N-rAdtOYXiKx93JfpMXe7TBaO80jVySuDm_3-EXOPTc|1676981691|4bc17fc85bf68923847ae317863658c043e801b0ec20440a87597eeb193d450a; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==;
+```
+
+==ttwid==      ==bd_ticket_guard_client_data==（必须）  
+
+可从你需要的接口获取在cookie中
+
+![image-20230314140505954](http://qiniu.noobzz.cn/pic-bed/image-20230314140505954.png)
+
+![image-20230314140501708](http://qiniu.noobzz.cn/pic-bed/image-20230314140501708.png)
+
+![image-20230314140542428](http://qiniu.noobzz.cn/pic-bed/image-20230314140542428.png)
+
+repo：第一次max_cursor：1678693312000   	<---	req：  0
+
+​			第二次max_cursor：1678591577000   	<--	1678693312000     sub=101,735,000
+
+​			第三次max_cursor：1678574102000   	<--			1678591577000   sub=17,475,000
+
+
+
+### Parameters（名词解释）
+
+1、count：当前加载的作品数量（当前接口默认值是10，不传回20）
+
+2、max_cursor：结束时间戳，默认的值是0 （分页实现，上一个接口的max_cursor就是下一个的max_cursor，可认为是游标）
+
+3、min_cursor：开始时间戳，默认是0
+
+4、aid：可以理解为平台id
+
+5、aweme
+
+6、sec_user_id：用户ID
+
+7、aweme_id：视频ID
+
+8、signature：个性签名
+
+9、nickname：昵称
+
+10、preview_title：视频标题
+
+11、author：{}作者信息
+
+12、device_platform：设备平台 （webapp，android）
+
+### ttwid
+
+https://ttwid.bytedance.com/ttwid/union/register/   字节ttwid注册 POST   所有通用字节产品
+
+西瓜视频：
+
+```
+{
+    "region": "cn",
+    "aid": 1768,
+    "needFid": false,
+    "service": "www.ixigua.com",
+    "migrate_info": {
+        "ticket": "",
+        "source": "node"
+    },
+    "cbUrlProtocol": "https",
+    "union": true
+}
+```
+
+今日头条：
+
+```
+{
+    "aid": 4916,
+    "service": "so.toutiao.com",
+    "unionHost": "https://ttwid.bytedance.com",
+    "union": True,
+    "needFid": False,
+}
+```
+
+ttwid -> post请求https://ttwid.bytedance.com/ttwid/union/register/（参数写死）->跳转重定向->从响应头取cookie->拼接写死bd_ticket_guard_client_data->形成主请求cookie
+
+ps：只能请求一次，否则第二次失败
+
+```
+{
+    "redirect_url": "https://www.ixigua.com/ttwid/union/register/callback/?aid=1768&ticket=1pvtm3jC0a_HffcC7-kxiyycrMZICj0bwOSySBybCoBwfc9BZ2UdzHZ6WAs7aM4Xi",
+    "status_code": 0,
+    "message": "union register success"
+}
+```
+
+请求成功：响应头Set-Cookie，其中ttwid就是需要的 
+
+```
+{"status_code":0,"message":"callback success","sub_status_code":2002}
+```
+
+
+
+![image-20230314152439075](http://qiniu.noobzz.cn/pic-bed/image-20230314152439075.png)
+
+请求失败：
+
+```
+{"status_code":1001,"message":"parse params fail","sub_status_code":2002}
+```
+
+
+
+![image-20230314151901955](http://qiniu.noobzz.cn/pic-bed/image-20230314151901955.png)
+
+
+
+```
+ttwid=1%7C-qXHnyxKofZSM5VXOtPXhAfXQbtKISUxWaqGEf0yYTo%7C1678776336%7Ce14f65300b8f5865d7f3f774e488da6d41035c825fee07240db138d7db59b7aa;download_guide="3/20230313"; my_rd=1; SEARCH_RESULT_LIST_TYPE="single"; strategyABtestKey="1678725544.777"; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; 
+```
+
+### bd_ticket_guard_client_data
+
+写死，客户端参数，所有请求通用，放config配置
+
+### 接口
+
+1、X-Bogus生成（url） return str
+
+2、ttwid 注册 https://ttwid.bytedance.com/ttwid/union/register/ 取cookie
+
+3、cookie拼接
+
+> 其他接口 获取视频相关信息（不需要cookie）
+>
+> https://www.douyin.com/aweme/v1/web/aweme/detail/?aweme_id=7209082846806379787&aid=1128&version_name=23.5.0&device_platform=android&os_version=2333&X-Bogus=DFSzswSLsusANnEftauDHz9WcBJ2
+>
+> query
+>
+> ```
+> aweme_id:7209082846806379787
+> aid:1128
+> version_name:23.5.0
+> device_platform:android
+> os_version:2333
+> X-Bogus:DFSzswSLsusANnEftauDHz9WcBJ2
+> ```
+>
+> header
+>
+> ```
+> User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36
+> Referer: https://www.douyin.com/
+> ```
+>
+> result
+>
+> ```
+> {
+> "aweme_detail":{},
+> "log_pb":{
+> "impr_id":"202303141331423E2B268B99F29B01F910"
+> },
+> "status_code":0
+> }
+> ```
+>
+> 
+
+### 对比
+
+nickname 昵称
+
+==sec_uid==  用户id
+
+### 测试用户
+
+https://www.douyin.com/user/MS4wLjABAAAApmi-USaKOChKt5pX20FjhjJMcH2bFRfh04i2aP-zVlI?showTab=like
+
+MS4wLjABAAAApmi-USaKOChKt5pX20FjhjJMcH2bFRfh04i2aP-zVlI
+
+https://www.douyin.com/user/MS4wLjABAAAAlgprH3J4bbkgRZjKOvJgcxbK3BFJ1YrgAqm13cZGe50?showTab=like
+
+MS4wLjABAAAAlgprH3J4bbkgRZjKOvJgcxbK3BFJ1YrgAqm13cZGe50
+
+https://www.douyin.com/user/MS4wLjABAAAAuzme0B1095_cnyQaYNJVfw1RLCnbLWLSmQHdRIdKU4LoyPOgjPFJkhICR26IB-rX
+
+MS4wLjABAAAAuzme0B1095_cnyQaYNJVfw1RLCnbLWLSmQHdRIdKU4LoyPOgjPFJkhICR26IB-rX
+
+
+
+### status_code
+
+status_code：2154 status_msg：休息一下吧
+
+status_code：5 status_msg：参数不合法
+
+status_code：0   （成功）
+
+
+
+### 性能测试
+
+10user 500times  500passed 0failed
+
+35user 1500times 1106passed 394failed
+
+![image-20230314233328745](http://qiniu.noobzz.cn/pic-bed/image-20230314233328745.png)
+
+Faile原因：
+
+![image-20230314222041850](http://qiniu.noobzz.cn/pic-bed/image-20230314222041850.png)
 
 ### 常见问题
 
@@ -215,140 +452,3 @@ user-agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML,
     ```
 
 - 在**MODULE**中，您可以通过设置选项值 sessionList 来设置会话。例如**sessionList:["sid_tt=521kkadkasdaskdj4j213j12j312;", "sid_tt=12312312312312;"]**
-
-
-
-```
-bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; msToken=mBaNX7BGgpiNu1urGDFKVEBrVn6JjevMvKxr5EG8Cm_SuwDGpzlHS3pf2azyVbXN0_79oSb4iuGLC0R2-0iBbuIApTBTnJmNg1qXPj6auObjWMWcIqdizg==; msToken=o01NRabe1fwse268wdBgtvwVhRHv9wnAXLMXVG5-7_2hVyTE8_LLI_hCBlmcmbn0BsrL48omjA2-_5BpHOwKN7jTLqW32iLOJZRCefJwnmAlBP2dzf0RTD6ICqjVbxA=; __ac_nonce=06410073400b91f78de59; __ac_signature=_02B4Z6wo00f01u6Dk6gAAIDCboFp6N8mRhruo5cAAN--fQVZJNDvcgYYV24NbKz8TXCQwjWZn4xMG-6OmHQ7c5hFnTMdlZqY4ZjlgW25d3T7uzbgfl2mKcm2WY.SJko9t.F3xius4eW8Sgg8fd; home_can_add_dy_2_desktop="0"
-```
-
-```
-ttwid=1|N-rAdtOYXiKx93JfpMXe7TBaO80jVySuDm_3-EXOPTc|1676981691|4bc17fc85bf68923847ae317863658c043e801b0ec20440a87597eeb193d450a; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; msToken=mBaNX7BGgpiNu1urGDFKVEBrVn6JjevMvKxr5EG8Cm_SuwDGpzlHS3pf2azyVbXN0_79oSb4iuGLC0R2-0iBbuIApTBTnJmNg1qXPj6auObjWMWcIqdizg==;
-```
-
-```
-ttwid=1|N-rAdtOYXiKx93JfpMXe7TBaO80jVySuDm_3-EXOPTc|1676981691|4bc17fc85bf68923847ae317863658c043e801b0ec20440a87597eeb193d450a; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==;
-```
-
-==ttwid==      ==bd_ticket_guard_client_data==（必须）  
-
-可从你需要的接口获取在cookie中
-
-![image-20230314140505954](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20230314140505954.png)
-
-![image-20230314140406551](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20230314140406551.png)
-
-![image-20230314140542428](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20230314140542428.png)
-
-repo：第一次max_cursor：1678693312000   	<---	req：  0
-
-​			第二次max_cursor：1678591577000   	<--	1678693312000     sub=101,735,000
-
-​			第三次max_cursor：1678574102000   	<--			1678591577000   sub=17,475,000
-
-
-
-### Parameters
-
-1、count：当前加载的作品数量（当前接口默认值是10，不传回20）
-
-2、max_cursor：结束时间戳，默认的值是0
-
-3、min_cursor：开始时间戳，默认是0
-
-4、aid：可以理解为平台id
-
-### ttwid
-
-https://ttwid.bytedance.com/ttwid/union/register/   字节ttwid注册 POST
-
-```
-{
-    "region": "cn",
-    "aid": 1768,
-    "needFid": false,
-    "service": "www.ixigua.com",
-    "migrate_info": {
-        "ticket": "",
-        "source": "node"
-    },
-    "cbUrlProtocol": "https",
-    "union": true
-}
-```
-
-```
-{
-    "aid": 4916,
-    "service": "so.toutiao.com",
-    "unionHost": "https://ttwid.bytedance.com",
-    "union": True,
-    "needFid": False,
-}
-```
-
-ttwid -> post请求https://ttwid.bytedance.com/ttwid/union/register/（参数写死）->跳转重定向->从响应头取cookie->拼接写死bd_ticket_guard_client_data->形成主请求cookie
-
-ps：只能请求一次，否则第二次失败
-
-```
-{
-    "redirect_url": "https://www.ixigua.com/ttwid/union/register/callback/?aid=1768&ticket=1pvtm3jC0a_HffcC7-kxiyycrMZICj0bwOSySBybCoBwfc9BZ2UdzHZ6WAs7aM4Xi",
-    "status_code": 0,
-    "message": "union register success"
-}
-```
-
-请求成功：响应头Set-Cookie，其中ttwid就是需要的 
-
-```
-{"status_code":0,"message":"callback success","sub_status_code":2002}
-```
-
-
-
-![image-20230314152439075](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20230314152439075.png)
-
-请求失败：
-
-```
-{"status_code":1001,"message":"parse params fail","sub_status_code":2002}
-```
-
-![image-20230314151901955](C:\Users\admin\AppData\Roaming\Typora\typora-user-images\image-20230314151901955.png)
-
-
-
-
-
-```
-ttwid=1%7C-qXHnyxKofZSM5VXOtPXhAfXQbtKISUxWaqGEf0yYTo%7C1678776336%7Ce14f65300b8f5865d7f3f774e488da6d41035c825fee07240db138d7db59b7aa;download_guide="3/20230313"; my_rd=1; SEARCH_RESULT_LIST_TYPE="single"; strategyABtestKey="1678725544.777"; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; 
-```
-
-### bd_ticket_guard_client_data
-
-写死，客户端参数，放config配置
-
-### 接口
-
-1、X-Bogus生成（url） return str
-
-2、ttwid 注册 https://ttwid.bytedance.com/ttwid/union/register/ 取cookie
-
-3、
-
-### 对比
-
-nickname
-
-==sec_uid==
-
-### 测试用户
-
-https://www.douyin.com/user/MS4wLjABAAAApmi-USaKOChKt5pX20FjhjJMcH2bFRfh04i2aP-zVlI?showTab=like
-
-MS4wLjABAAAApmi-USaKOChKt5pX20FjhjJMcH2bFRfh04i2aP-zVlI
-
-https://www.douyin.com/user/MS4wLjABAAAAlgprH3J4bbkgRZjKOvJgcxbK3BFJ1YrgAqm13cZGe50?showTab=like
-
-MS4wLjABAAAAlgprH3J4bbkgRZjKOvJgcxbK3BFJ1YrgAqm13cZGe50

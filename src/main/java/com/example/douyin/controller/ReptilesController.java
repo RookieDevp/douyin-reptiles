@@ -2,10 +2,14 @@ package com.example.douyin.controller;
 
 import cn.hutool.core.net.url.UrlBuilder;
 import cn.hutool.core.util.CharsetUtil;
+import cn.hutool.core.util.ObjectUtil;
+import cn.hutool.core.util.StrUtil;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.example.douyin.domain.AjaxResult;
 import com.example.douyin.service.Impl.ReptilesServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 /**
@@ -34,10 +38,14 @@ public class ReptilesController {
      * @desc  根据url、userAgent 生成X-Bogus
      */
     @GetMapping("/xbogus")
-    public JSONObject getXbogus(String url,String userAgent){
+    public AjaxResult getXbogus(String url, String userAgent){
         UrlBuilder builder = UrlBuilder.ofHttp(url, CharsetUtil.CHARSET_UTF_8);
         String queryStr = builder.getQueryStr();
-        return reptilesService.getXbogus(queryStr, userAgent);
+        JSONObject xbogus = reptilesService.getXbogus(queryStr, userAgent);
+        if (ObjectUtil.isEmpty(xbogus)) {
+            return AjaxResult.error();
+        }
+        return AjaxResult.success(xbogus);
     }
 
     /***
@@ -47,8 +55,12 @@ public class ReptilesController {
      * @desc  利用字节中间接口注册ttwid
      */
     @GetMapping("/ttwid")
-    public String getTTwid(){
-        return reptilesService.getTTwid();
+    public AjaxResult getTTwid(){
+        String tTwid = reptilesService.getTTwid();
+        if (StrUtil.isEmpty(tTwid)) {
+            return AjaxResult.error();
+        }
+        return AjaxResult.success(tTwid);
     }
 
     /***
@@ -58,8 +70,12 @@ public class ReptilesController {
      * @desc  获取cookie，参数：ttwid=xxx;bd_ticket_guard_client_data=xxx
      */
     @GetMapping("/cookie")
-    public String getCookie(){
-        return reptilesService.getCookie();
+    public AjaxResult getCookie(){
+        String cookie = reptilesService.getCookie();
+        if (StrUtil.isEmpty(cookie)) {
+            return AjaxResult.error();
+        }
+        return AjaxResult.success(cookie);
     }
 
     /***
@@ -72,9 +88,13 @@ public class ReptilesController {
      * @desc  根据secUserId获取喜欢列表信息  example：127.0.0.1:8088/reptiles/getUserFavoriteList/MS4wLjABAAAApmi-USaKOChKt5pX20FjhjJMcH2bFRfh04i2aP-zVlI?maxCursor=1574048283000
      */
     @GetMapping("/getUserFavoriteList/{secUserId}")
-    public JSONObject getUserFavoriteList(@PathVariable("secUserId") String secUserId
+    public AjaxResult getUserFavoriteList(@PathVariable("secUserId") String secUserId
             , @RequestParam(required = false,defaultValue = "0") String maxCursor
             , @RequestParam(required = false,defaultValue = "0") String minCursor){
-        return reptilesService.getUserFavoriteList(secUserId, maxCursor, minCursor);
+        JSONObject favoriteList = reptilesService.getUserFavoriteList(secUserId, maxCursor, minCursor);
+        if (ObjectUtil.isEmpty(favoriteList)){
+            return AjaxResult.error();
+        }
+        return AjaxResult.success(favoriteList);
     }
 }

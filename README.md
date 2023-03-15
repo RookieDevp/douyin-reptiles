@@ -5,6 +5,8 @@ douyin-reptiles
 ### 步骤一
 ```
 cd ./X-Bogus
+pip install flask
+pip install PyExecJS
 python3 server.py
 ```
 访问测试 
