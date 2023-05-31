@@ -39,3 +39,10 @@ python3 server.py
 获取xbogus GET
 /reptiles/xbogus
 ```
+示例图片：
+![image](https://github.com/RookieDevp/douyin-reptiles/assets/88661272/ebff21d2-fd08-44b7-99fa-1c3fd18d8f52)
+![image](https://github.com/RookieDevp/douyin-reptiles/assets/88661272/c90557cb-fc35-4e62-bbf2-19b2758a1546)
+![image](https://github.com/RookieDevp/douyin-reptiles/assets/88661272/05571202-3049-43aa-ac81-d602894692ee)
+![image](https://github.com/RookieDevp/douyin-reptiles/assets/88661272/91eb3764-6fa6-4ad9-8434-f5f0df0ea43e)
+
+
