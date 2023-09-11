@@ -1,10 +1,14 @@
 # douyin-reptiles
-douyin-reptiles
+⭐欢迎star，您的支持是我更新的动力！
 
 * douyin.md 思路和参考
 * user.txt 包含多个公开喜欢的sec_user_id，可用于测试
 * X-Bogus 用于Python签名，包含思路文档
 * 生成的X-Bogus和ttwid可适用于字节跳动应用的接口
+* 三种选择方式：Java、Python、Python+Java，均可在API接口下完成
+* 已通过千次代理转发并发测试，基本上无失效请求
+* 若有疑问，请在issue上留言
+
 
 ## 启动类
 server.py
@@ -48,6 +52,16 @@ python3 server.py
             <version>21.1.0</version>
         </dependency>
 ```
+```
+    public String getXbogus(String url, String userAgent) {
+        String xbogus = null;
+        xbogus = (String) ScriptUtil.invoke(ResourceUtil.readStr("js/X-Bogus.js",Charset.defaultCharset()),"sign", url, userAgent);
+        if (StrUtil.isEmpty(xbogus)){
+            return StrUtil.EMPTY;
+        }
+        return xbogus;
+    }
+```
 ### 已实现接口
 ```
 获取用户喜欢列表 GET
@@ -65,4 +79,5 @@ python3 server.py
 ![image](https://github.com/RookieDevp/douyin-reptiles/assets/88661272/05571202-3049-43aa-ac81-d602894692ee)
 ![image](https://github.com/RookieDevp/douyin-reptiles/assets/88661272/91eb3764-6fa6-4ad9-8434-f5f0df0ea43e)
 
-
+### 代码参考(Refer)
+* https://github.com/B1gM8c/X-Bogus
