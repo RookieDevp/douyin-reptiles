@@ -41,11 +41,11 @@ public class ReptilesController {
     public AjaxResult getXbogus(String url, String userAgent){
         UrlBuilder builder = UrlBuilder.ofHttp(url, CharsetUtil.CHARSET_UTF_8);
         String queryStr = builder.getQueryStr();
-        JSONObject xbogus = reptilesService.getXbogus(queryStr, userAgent);
-        if (ObjectUtil.isEmpty(xbogus)) {
+        String xbogus = reptilesService.getXbogus(queryStr, userAgent);
+        if (StrUtil.isEmpty(xbogus)) {
             return AjaxResult.error();
         }
-        return AjaxResult.success(xbogus);
+        return AjaxResult.success("操作成功",xbogus);
     }
 
     /***
@@ -92,6 +92,26 @@ public class ReptilesController {
             , @RequestParam(required = false,defaultValue = "0") String maxCursor
             , @RequestParam(required = false,defaultValue = "0") String minCursor){
         JSONObject favoriteList = reptilesService.getUserFavoriteList(secUserId, maxCursor, minCursor);
+        if (ObjectUtil.isEmpty(favoriteList)){
+            return AjaxResult.error();
+        }
+        return AjaxResult.success(favoriteList);
+    }
+
+    /***
+     * @author ZZJ
+     * @date 2023/3/19
+     * @param secUserId
+     * @param maxCursor
+     * @param minCursor
+     * @return com.example.douyin.domain.AjaxResult
+     * @desc  根据secUserId获取喜欢列表信息（IP代理）
+     */
+    @GetMapping("/getUserFavoriteListV2/{secUserId}")
+    public AjaxResult getUserFavoriteListV2(@PathVariable("secUserId") String secUserId
+            , @RequestParam(required = false,defaultValue = "0") String maxCursor
+            , @RequestParam(required = false,defaultValue = "0") String minCursor){
+        JSONObject favoriteList = reptilesService.getUserFavoriteListV2(secUserId, maxCursor, minCursor);
         if (ObjectUtil.isEmpty(favoriteList)){
             return AjaxResult.error();
         }

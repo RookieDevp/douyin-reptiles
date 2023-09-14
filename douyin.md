@@ -401,6 +401,8 @@ status_code：5 status_msg：参数不合法
 
 status_code：0   （成功）
 
+statusCode:4, statusMsg:啊哦，服务器打瞌睡了，再试一次吧～，
+
 
 
 ### 性能测试
@@ -452,3 +454,89 @@ Faile原因：
     ```
 
 - 在**MODULE**中，您可以通过设置选项值 sessionList 来设置会话。例如**sessionList:["sid_tt=521kkadkasdaskdj4j213j12j312;", "sid_tt=12312312312312;"]**
+
+
+
+### 代理
+
+```
+{"msg": "", "code": 0, "data": {"expire": 3572, "secret_token": "ov43or9b7faed23jcrx9c06gur"}}
+{"msg": "order invalid or expired", "code": -102, "data": ""}
+{"msg": "success", "code": 0, "data": {"current_ip": "27.29.154.235"}}
+
+{"msg": "", "code": 0, "data": {"expire": 3364, "secret_token": "ov43or9b7faed23jcrx9c06gur"}}
+{"msg": "order invalid or expired", "code": -102, "data": ""}
+{"msg": "success", "code": 0, "data": {"current_ip": "163.204.244.130"}}
+
+{"msg": "", "code": 0, "data": {"expire": 3352, "secret_token": "ov43or9b7faed23jcrx9c06gur"}}
+{"msg": "order invalid or expired", "code": -102, "data": ""}
+{"msg": "tunnel is not being used", "code": 0, "data": {"current_ip": ""}}
+
+{"msg": "", "code": 0, "data": {"expire": 3340, "secret_token": "ov43or9b7faed23jcrx9c06gur"}}
+{"msg": "order invalid or expired", "code": -102, "data": ""}
+{"msg": "success", "code": 0, "data": {"current_ip": "113.121.21.206"}}
+
+{"msg": "", "code": 0, "data": {"expire": 3326, "secret_token": "ov43or9b7faed23jcrx9c06gur"}}
+{"msg": "order invalid or expired", "code": -102, "data": ""}
+{"msg": "success", "code": 0, "data": {"current_ip": "113.121.21.206"}}
+
+{"msg": "", "code": 0, "data": {"expire": 3314, "secret_token": "ov43or9b7faed23jcrx9c06gur"}}
+{"msg": "order invalid or expired", "code": -102, "data": ""}
+{"msg": "tunnel is not being used", "code": 0, "data": {"current_ip": ""}}
+
+"msg": "tunnel is not being used", "code": 0, "data": {"current_ip": ""}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "120.239.133.177"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "tunnel is not being used", "code": 0, "data": {"current_ip": ""}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "119.41.202.94"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "119.41.202.94"}}
+{"msg": "", "code": 0, "data": {"expire_time": ""}}
+{"msg": "success", "code": 0, "data": {"current_ip": "119.41.202.94"}}
+```
+
+
+
+
+
+![image-20230316130104637](http://qiniu.noobzz.cn/pic-bed/image-20230316130104637.png)
+
+
+
+MS4wLjABAAAA6nyfOfOFBGQ8FfQYQGXTBW9E1bS91u-A5DGYkWF-XUM_TMjoGqL2mm8mbVVNsHVM
+
+
+
+
+
+ttcid=4b78de16227c4dccbc7ae3b7f4c5b79614; ttwid=1|7nzcc28lINF8s_k-VBOcxqRIWrCWPuHayGEEDFRAFDU|1679206051|b606cc4a3cc1aefd607a6cba3831ab0c4fc67462ad2b5be42c10f5d6d979ebb3; douyin.com; home_can_add_dy_2_desktop="0"; strategyABtestKey="1679206051.719"; VIDEO_FILTER_MEMO_SELECT={"expireTime":1679810851733,"type":1}; passport_csrf_token=62487f44bc0ca782f6f66fbf46f39bfa; passport_csrf_token_default=62487f44bc0ca782f6f66fbf46f39bfa; s_v_web_id=verify_lfezxe3v_JDuv6HmD_ZqqV_4ht5_9fdU_ZZYg3HY8I5xg; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUV0Tk5BVEtKNEtqRmJUUGJySUNqZWxIdG5cclxuZTlVVHdDWnZ1MG1ubGtONW9FTmNyMjFLY0s0aGs5cnN3dFM5NWNJNDlOVms1NWtwMndrS1JBRUlRUHMyWXFBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQU54dGc2NStrL2ZURE44SmVOcGtFeGFQbWxwRTFBeW1KU09DclBKbEN5SWlcclxuQWlFQTB1MTdSR1ZwdnlxNnYxYWgzTGNhcDQraGJTUVVwQTN5NUV0Y2Y0S3NWdE09XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; msToken=3yHq_4-OEhkVwlM3r_wMXyWqBSpjrpfetL_Tvy3X3Hwbr9WCROu56y319ydmMkq5gb-SH6MoxndD1B0pHsFG4guyzPCxjwDbCb5ClE_vBa4=; msToken=FQnNzF3_Lk652TZX05r_Nu9e2FE5gstxibZgB-reTPKQM8_KCvDU-LlnbY3xHw6MX_LTiE3pCBOPM6_w_JHuCvQzBax6uI_ffbf1GNb9Hfd-viOJy8T7; tt_scid=D44e0zG3HW9E.4ciyXU72fuXOYj9lOvYbN4bNYr806OSBOtk0JbC4lErQPP9bcyc697f
+
+
+
+```
+eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==
+```
+
+```
+passport_csrf_token=fbc170f6d028622287eb948d73f49e22; passport_csrf_token_default=fbc170f6d028622287eb948d73f49e22; s_v_web_id=verify_ldrd4cms_iZGBwzGS_FHEB_4b7Y_AM1d_Pumvuurb94nh; xgplayer_user_id=848251892053; ttwid=1|N-rAdtOYXiKx93JfpMXe7TBaO80jVySuDm_3-EXOPTc|1676981691|4bc17fc85bf68923847ae317863658c043e801b0ec20440a87597eeb193d450a; download_guide="3/20230313"; my_rd=1; SEARCH_RESULT_LIST_TYPE="single"; __ac_signature=_02B4Z6wo00f01k5fllwAAIDCzl1sHfAhROJOf5LAAPeQaeexJWnUvqTsIvCyLwOvZM-OFh9WReAJPkM4X.8odxhOQ1M4UCMuLrueNWIvlJv7UeakLP6NcijiED39AdE1hgcIeswmMYd8wsNF10; strategyABtestKey="1679203081.15"; __ac_nonce=06416a28f00defc9ba909; _tea_utm_cache_2018=undefined; douyin.com; bd_ticket_guard_client_data=eyJiZC10aWNrZXQtZ3VhcmQtdmVyc2lvbiI6MiwiYmQtdGlja2V0LWd1YXJkLWNsaWVudC1jc3IiOiItLS0tLUJFR0lOIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG5NSUlCRHpDQnRRSUJBREFuTVFzd0NRWURWUVFHRXdKRFRqRVlNQllHQTFVRUF3d1BZbVJmZEdsamEyVjBYMmQxXHJcbllYSmtNRmt3RXdZSEtvWkl6ajBDQVFZSUtvWkl6ajBEQVFjRFFnQUU5STdibnJGN0tveDF6YjliM09GNkNMbk5cclxuckZDbTRleVpWUlJEQ01RSDhPdEIyOCt4ZExMQ2l4TlgxS1lvZmtMemxtdnlhcDh5ekJDdTNKZHduOG9oN2FBc1xyXG5NQ29HQ1NxR1NJYjNEUUVKRGpFZE1Cc3dHUVlEVlIwUkJCSXdFSUlPZDNkM0xtUnZkWGxwYmk1amIyMHdDZ1lJXHJcbktvWkl6ajBFQXdJRFNRQXdSZ0loQUlRZEhnZ0EzbVRRcHdjM0R4cW9tQjZVNlVDcGJXbmgxMWdXaGJNNTExK2VcclxuQWlFQStGRk1LL0VzTG9NSHU2QklyYlc3NHJ3T3QxUkVEalBiKzNhUk9kR0o1TGM9XHJcbi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLVxyXG4ifQ==; csrf_session_id=981a41081213621a78f8cf5928bff4b8; tt_scid=.gTA4eVrERivDIj267lD1ocSO7sZ.c03xVuLnznWBvhVHXOlLUHrXZZDpK5Aq59Fa495; VIDEO_FILTER_MEMO_SELECT={"expireTime":1679811540890,"type":1}; msToken=LHr8PtY3YIq8JqmSTpSHHFbapJ3N21qtUjns7Z8Ro82JFi6yGQ3BnJkmKtH-AA9V3QxJsYBa8b65NxZgX7WYarikajM6VWH-rc6TnbSu3yIxoO3w6VdX2g==; home_can_add_dy_2_desktop="1"; msToken=txe5PCPVXuCB72yKSXhLWi7Llu-IZJKjoCZQk0b7_GFdALNS_gz7VcFjZ6A1r7sIR8704dG6_nQmuqXDTeZXQQqBAdqqa5NwKAg-VscBeXhQ2cLDRa69mYuUq_FWX1k=
+```
+
+s_v_web_id=verify_ldrd4cms_iZGBwzGS_FHEB_4b7Y_AM1d_Pumvuurb94nh;
+
+verify_lff12jpb_aDiignVY_xwEp_4XqN_BudJ_FTiC5T2tr0ku
+
+verify_ldrd4cms_iZGBwzGS_FHEB_4b7Y_AM1d_Pumvuurb94nh

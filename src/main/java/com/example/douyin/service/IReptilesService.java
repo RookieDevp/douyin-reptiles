@@ -10,7 +10,7 @@ import com.alibaba.fastjson.JSONObject;
  */
 public interface IReptilesService {
 
-    public JSONObject getXbogus(String url, String userAgent);
+    public String getXbogus(String url, String userAgent);
 
     public String getTTwid();
 
@@ -19,4 +19,6 @@ public interface IReptilesService {
     public String refreshCookie();
 
     public JSONObject getUserFavoriteList(String secUserId, String maxCursor, String minCursor);
+
+    public JSONObject getUserFavoriteListV2(String secUserId, String maxCursor, String minCursor);
 }

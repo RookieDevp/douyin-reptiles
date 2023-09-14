@@ -24,3 +24,11 @@ common:
 sign:
   service:
     url: http://127.0.0.1:8787/X-Bogus
+# 快代理配置
+proxy:
+  # 用户名密码, 若已添加白名单则不需要添加
+  username: t17921709868699
+  password: nq4evgip
+  # 隧道域名、端口号
+  host: n955.kdltps.com
+  port: 15818
