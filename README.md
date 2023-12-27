@@ -32,7 +32,7 @@ python3 server.py
 127.0.0.1:8088
 
 两个服务都要启动缺一不可
-## 如需纯Java实现
+## 如需纯Java实现（参考feat分支）
 加上以下依赖，可使用hutool工具执行x-bogus的js脚本
 ```
         <dependency>
